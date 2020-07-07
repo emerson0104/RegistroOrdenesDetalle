@@ -22,6 +22,7 @@ namespace RegistrosOrdenesBlazor.Models
             ProductoId = 0;
             Cantidad = 0;
             Costo = 0;
+            
         }
     }
 }

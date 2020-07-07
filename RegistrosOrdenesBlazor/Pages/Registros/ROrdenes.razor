@@ -4,134 +4,136 @@
 @using RegistrosOrdenesBlazor.BLL
 @inject IToastService toast
 
-    <EditForm Model="ordenes" OnValidSubmit="Guardar">
-        <DataAnnotationsValidator />
+<EditForm Model="ordenes" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
 
-        <section class="form-register">
-            <div class="card">
+    <section class="form-register">
+        <div class="card">
 
-                <div class="card-header">
-                    <h3>Registro de Ordenes</h3>
-                </div>
-
-                <div class="card-body">
-                    <form>
-                        <div class="form-row align-items-center">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label>Id</label>
-                                    <div class="input-group">
-                                        <InputNumber @bind-Value="ordenes.OrdenId" class="form-control " />
-                                        <ValidationMessage For="(() => ordenes.OrdenId)"></ValidationMessage>
-                                        <div class="input-group-append">
-                                            <button type="button" class="btn btn-primary input-group-text" @onclick="Buscar">Buscar</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        @*Fecha*@
-                        <div class="form-group">
-                            <label>Fecha</label>
-                            <InputDate @bind-Value="ordenes.Fecha" class="form-control" />
-                            <ValidationMessage For="@(() => ordenes.Fecha)" />
-                        </div>
-
-                        @*Suplidor*@
-                        <div class="form-group">
-                            <label>Suplidor</label>
-                            <select class="form-control" @bind="ordenes.SuplidorId">
-                                @foreach (var item in listaSuplidores)
-                                {
-                                    <option value="@item.SuplidorId">@item.Nombres</option>
-                                }
-                            </select>
-                            <ValidationMessage For="@(() => ordenes.SuplidorId)" />
-                        </div>
-
-                        <div class="form-group">
-                            <div class="form-row">
-                                @*Productos*@
-                                <div class="col">
-                                    <label>Producto</label>
-                                    <select class="form-control" @bind="Seleccionproducto" @onclick="BuscarCosto">
-                                        @foreach (var item in listaProductos)
-                                        {
-                                            <option value="@item.ProductoId">@item.Descripcion</option>
-                                        }
-                                    </select>
-                                </div>
-                                @*Costo*@
-                                <div class="col">
-                                    <label>Costo</label>
-                                    <InputNumber class="form-control" @bind-Value="ResultdoCosto" readonly="true" />
-                                </div>
-                                @*Cantidad*@
-                                <div class="col">
-                                    <label>Cantidad</label>
-                                    <div class="input-group">
-                                        <InputNumber @bind-Value="cantidadSelecionada" class="form-control" />
-                                        <div class="input-group-append">
-                                            <button type="button" class="btn btn-info" @onclick="Agregar">Agregar</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        @*Detalle*@
-                        <div class="table-responsive text-nowrap">
-                            <table class="table table-striped">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Orden Id</th>
-                                        <th>Productos Id</th>
-                                        <th>Cantidad</th>
-                                        <th>Costo</th>
-                                    </tr>
-                                </thead>
-                                <tbody style=" background-color: #acf5f5">
-                                    @foreach (var item in ordenes.OrdenDetalles)
-                                    {
-                                        <tr>
-                                            <td>@item.OrdenDetalleId</td>
-                                            <td>@item.OrdenId</td>
-                                            <td>@item.ProductoId</td>
-                                            <td>@item.Cantidad</td>
-                                            <td>@item.Costo</td>
-                                            <td><button type="button" class="btn btn-outline-danger" @onclick="(() => RemoverOrdenDetalle(item))">Remover</button></td>
-                                        </tr>
-                                    }
-
-                                </tbody>
-
-                            </table>
-                        </div>
-
-                        @*Monto*@
-                        <div class="form-group">
-                            <label>Monto</label>
-                            <InputNumber @bind-Value="ordenes.Monto" class="form-control" readonly="true" />
-                            <ValidationMessage For="@(() => ordenes.Monto)" />
-                        </div>
-
-                    </form>
-                </div>
-
-                <div class="card-footer">
-                    <div class="form-group text-center" display: inline-block>
-                        <button type="button" class="btn btn-lg btn-secondary" @onclick="Nuevo">Nuevo</button>
-                        <button type="submit" class="btn btn-lg btn-success">Guardar</button>
-                        <button type="button" class="btn btn-lg btn-danger" @onclick="Eliminar">Eliminar</button>
-                    </div>
-                </div>
-
+            <div class="card-header">
+                <h3>Registro de Ordenes</h3>
             </div>
-        </section>
 
-    </EditForm>
+            <div class="card-body">
+                <form>
+                    <div class="form-row align-items-center">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Id</label>
+                                <div class="input-group">
+                                    <InputNumber @bind-Value="ordenes.OrdenId" class="form-control " />
+                                    <ValidationMessage For="(() => ordenes.OrdenId)"></ValidationMessage>
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-primary input-group-text" @onclick="Buscar">Buscar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Fecha*@
+                    <div class="form-group">
+                        <label>Fecha</label>
+                        <InputDate @bind-Value="ordenes.Fecha" class="form-control" />
+                        <ValidationMessage For="@(() => ordenes.Fecha)" />
+                    </div>
+
+                    @*Suplidor*@
+                    <div class="form-group">
+                        <label>Suplidor</label>
+                        <select class="form-control" @bind="ordenes.SuplidorId">
+                            @foreach (var item in listaSuplidores)
+                            {
+                                <option value="@item.SuplidorId">@item.Nombres</option>
+                            }
+                        </select>
+                        <ValidationMessage For="@(() => ordenes.SuplidorId)" />
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            @*Productos*@
+                            <div class="col">
+                                <label>Producto</label>
+                                <select class="form-control" @bind="Seleccionproducto" @onclick="BuscarCosto">
+                                    @foreach (var item in listaProductos)
+                                    {
+                                        <option value="@item.ProductoId">@item.Descripcion</option>
+                                    }
+                                </select>
+                            </div>
+                            @*Costo*@
+                            <div class="col">
+                                <label>Costo</label>
+                                <InputNumber class="form-control" @bind-Value="ResultdoCosto" readonly="true" />
+                            </div>
+                            @*Cantidad*@
+                            <div class="col">
+                                <label>Cantidad</label>
+                                <div class="input-group">
+                                    <InputNumber @bind-Value="cantidadSelecionada" class="form-control" />
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-info" @onclick="Agregar">Agregar</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    @*Detalle*@
+                    <div class="table-responsive text-nowrap">
+                        <table class="table table-striped">
+                            <thead class="thead-light">
+                                <tr>
+
+                                    <th>Productos Id</th>
+                                    <th>Descripcion</th>
+                                    <th>Cantidad</th>
+                                    <th>Costo</th>
+                                    <th>Importe</th>
+                                </tr>
+                            </thead>
+                            <tbody style=" background-color: #acf5f5">
+                                @foreach (var item in ordenes.OrdenDetalles)
+                                {
+                                <tr>
+
+                                    <td>@item.ProductoId</td>
+                                    <td>@GetProducto(item.ProductoId)</td>
+                                    <td>@item.Cantidad</td>
+                                    <td>@item.Costo</td>
+                                    <td>@(item.Costo*item.Cantidad)</td>
+                                    <td><button type="button" class="btn btn-outline-danger" @onclick="(() => RemoverOrdenDetalle(item))">Remover</button></td>
+                                </tr>
+                                }
+
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                    @*Monto*@
+                    <div class="form-group">
+                        <label>Monto</label>
+                        <InputNumber @bind-Value="ordenes.Monto" class="form-control" readonly="true" />
+                        <ValidationMessage For="@(() => ordenes.Monto)" />
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="card-footer">
+                <div class="form-group text-center" display: inline-block>
+                    <button type="button" class="btn btn-lg btn-secondary" @onclick="Nuevo">Nuevo</button>
+                    <button type="submit" class="btn btn-lg btn-success">Guardar</button>
+                    <button type="button" class="btn btn-lg btn-danger" @onclick="Eliminar">Eliminar</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</EditForm>
 
 
 @code {
@@ -141,7 +143,7 @@
     public int cantidadSelecionada { get; set; }
     public int Seleccionproducto { get; set; }
     public decimal ResultdoCosto { get; set; }
-
+    public decimal Import { get; set; }
     Ordenes ordenes = new Ordenes();
     List<Suplidores> listaSuplidores = new List<Suplidores>();
     List<Productos> listaProductos = new List<Productos>();
@@ -164,7 +166,7 @@
 
     private void Buscar()
     {
-        var Paso= OrdenesBLL.Buscar(ordenes.OrdenId);
+        var Paso = OrdenesBLL.Buscar(ordenes.OrdenId);
         if (Paso != null)
         {
             this.ordenes = Paso;
@@ -194,6 +196,16 @@
 
     }
 
+    private string GetProducto(int id)
+    {
+        var product = ProductosBLL.Buscar(id);
+        string Xproducto = string.Empty;
+        if (product != null)
+        {
+            Xproducto = product.Descripcion;
+        }
+        return Xproducto;
+    }
     private void Agregar()
     {
         if (Seleccionproducto == 0)
@@ -209,20 +221,23 @@
         }
         else
         {
+         
+
             this.ordenes.OrdenDetalles.Add(new OrdenesDetalle
             {
                 OrdenDetalleId = 0,
                 OrdenId = ordenes.OrdenId,
                 ProductoId = Seleccionproducto,
                 Costo = ResultdoCosto,
-                Cantidad = cantidadSelecionada
-            });
+                Cantidad = cantidadSelecionada,
 
+            });
+           
             Seleccionproducto = 0;
             ResultdoCosto = 0;
             cantidadSelecionada = 0;
-
         }
+
         CalcularMonto();
 
     }
@@ -234,8 +249,9 @@
         {
             Monto += (item.Costo * item.Cantidad);
         }
-        ordenes.Monto= Monto;
+        ordenes.Monto = Monto;
     }
+
 
     private void RemoverOrdenDetalle(OrdenesDetalle detalle)
     {
